@@ -1,0 +1,59 @@
+% -*- TeX-engine: luatex; fill-column: 72; eval: (auto-fill-mode -1); eval: (visual-fill-column-mode 1); eval: (visual-line-mode 1); eval: (adaptive-wrap-prefix-mode 1) -*-
+\documentclass{article}
+%% You will need the "Turing Technical Notes" package.
+%% See the (very short) installation instructions here: https://github.com/alan-turing-institute/ttn
+%%
+\usepackage{ttn}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage[Ragged, size=footnote, shape=up, alerton]{sidenotesplus}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{siunitx}
+%% 
+%%\usepackage[style=authoryear]{biblatex}
+%%\addbibresource{notes.bib}
+%%
+%% \defn takes an optional star and an optional argument.
+%% If the optional argument is present, it is used for the marginal note; if the argument is missing, the default is the mandatory argument. If the command is starred, no marginal note is made. 
+\NewDocumentCommand\defn{sO{#3}m}{\textit{#3}\IfBooleanF{#1}{\sidenote*{\textcolor{MidnightBlue}{#2}}}}
+%%
+\title{Mathematics for language models}
+\author{The Language Models Reading Group}
+\date{\today}
+%%
+\begin{document}%\maketitle
+%%
+\newcommand{\vocab}{\ensuremath{\mathcal{V}}}
+\newcommand{\emptytext}{\ensuremath{\varepsilon}}
+\newcommand{\lang}{\ensuremath{\mathcal{L}}}
+\maketitle
+
+\section{Languages}
+
+Fix, once and for all, a finite set,~\vocab, called the \defn{vocabulary}. The elements of \vocab\ will be called~\defn{words}. Typically, \vocab\ is in fact the set of words in some lexicon but it might also be a set of tokens, or a set of letters.  We leave open the question of whether \vocab\ includes punctuation, capitalised words, and so on.  The notation $\left|\vocab\right|$ usually refers to the number of elements of~\vocab.
+
+We are usually interested in sequences of words. A finite sequence of words is called a~\defn{text}.  For example, if $w_1$, $w_2$, \dots, $w_n$ are words, then the sequence $(w_1, w_2, \dotsc, w_n)$ is a text.  The zero-length sequence consisting of no words is also a text: we denote it by~\defn[empty text, \emptytext]{\emptytext}. 
+
+We usually make use of a notational abbreviation for texts in which the symbols representing the words are simply adjoined; for example: $w_1 w_2 \dotsb w_n$.  But if we are writing a specific text, consisting of actual words, then we surround the text in single quotes and we may visually separate the words.  \sidenote*{What we have called ``texts'' are often called ``strings,'' or ``sentences.''  But our texts will include many (actual) sentences; and to a programmer, a string is a sequence of letters.}
+
+\emph{Example}: Let the vocabulary be the set $\vocab=\{0, 1\}$.  Then \emptytext, `0', `1', `01', `1101', and `0101010' are texts.
+
+\emph{Example}: Let the vocabulary be the set $\vocab = \{\text{the}, \text{on}, \text{cat}, \text{mat}, \text{sat}\}$.  Then `the', `mat mat mat', and `cat on cat on mat' are texts.
+
+The set of \emph{all} texts is denoted~$\vocab^*$. The `$*$' is called the \emph{Kleene star}.\sidenote{After Stephen Cole Kleene, 1909--1994. Kleene invented regular expressions in 1951, according to Wikipedia, ``to describe McCulloch-Pitts neural networks.'' Plus ça change!} It's the same $*$ as used in regular expressions---which Kleene invented---where it means ``zero or more repetitions of the preceding set of letters.'' It has essentially the same meaning here. Unless \vocab\ is empty, there are countably infinitely many elements of~$\vocab^*$.
+
+A \defn{language}, $\lang$, is a subset of~$\vocab^*$. (The empty subset
+is a valid language, as is $\vocab^*$ itself.)
+
+\emph{Example}: Let $\vocab=\{0,1\}$ as before. A natural number, written in binary, is a text over this vocabulary. The set of all natural numbers, expressed in binary, is a language. (Note that this language is a proper subset of $\vocab^*$ since, for example, it does not contain any texts starting with `0` apart from `0`.)
+
+\emph{Example}: Let $\vocab=\{0,1\}$. A rational number between~0 and~1, may be written as a binary ``decimal.'' For example, the fraction $1/2$ is $0.1$ in binary. Consider the set of all such binary expressions, omitting the initial `$0.$'. We do \emph{not} obtain a language: this set contains infinite sequences (such as the binary expansion of $1/10$) and infinite sequences are not texts.
+
+\emph{Example}: Let $\vocab =  \{\text{the}, \text{on}, \text{cat}, \text{mat}, \text{sat}\}$. The set consisting of the texts, `the cat sat on the mat', `the cat sat on the cat', `the mat sat on the cat', and `the mat sat on the mat' is a language.  
+
+\emph{Exercise}: Let $\vocab=\emptyset$ be empty. How many languages over $\vocab$ are there? (Hint: first work out what $\vocab^*$ is.)
+
+Sometimes we are interested only in sequences of words of a certain length. We denote by $\vocab^N$ the set of all sequences of $N$ words, for $N$ some natural number. (The notation is essentially that for the Cartesian product.) 
+
+
+\end{document}
