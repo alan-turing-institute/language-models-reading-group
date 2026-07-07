@@ -54,7 +54,78 @@ A \defn{language}, $\lang$, is a subset of~$\vocab^*$.
 
 \emph{Exercise}: Let $\vocab=\emptyset$ be empty. How many languages over $\vocab$ are there? (Hint: first work out what $\vocab^*$ is.)
 
-Sometimes we are interested only in sequences of words of a certain length. We denote by $\vocab^N$ the set of all sequences of $N$ words, for $N$ some natural number. (The notation is essentially that for the Cartesian product.) 
+Sometimes we are interested only in sequences of words of a certain length. We denote by $\vocab^N$ the set of all sequences of $N$ words, for $N$ some natural number. (The notation is essentially that for the Cartesian product.)
+
+\section{Surprise}
+
+Suppose an event~$E$ occurs, one to which beforehand we had assigned a probability $P(E)$, with $0 < P(E) \le 1$.  How \emph{surprised} should we be to see it happen?  Two demands pin the answer down.  First, a more probable event ought to be less surprising: surprise should decrease as $P(E)$ increases, and a sure thing, $P(E)=1$, should cause no surprise at all.  Second, learning that two \emph{independent} events both occurred should surprise us by the \emph{sum} of the two separate surprises---even though their joint probability is the \emph{product} of the two separate probabilities.  A function that turns products into sums is a logarithm, and, up to the choice of base, there is essentially only one function meeting both demands.
+
+We therefore define the \defn[Shannon information content]{surprise} of an event~$E$ to be
+\[
+  \operatorname{surprise}(E) = \log_2 \frac{1}{P(E)} = -\log_2 P(E).
+\]
+Because we have taken the logarithm to base~2, surprise is measured in \defn{bits}.\sidenote{Other bases are used too: base~$e$ gives \emph{nats}, and base~10 gives \emph{bans}, or \emph{hartleys}. Changing the base merely rescales surprise by a constant factor.}
+
+The formula has exactly the shape we asked for.  When $P(E)=1$ the surprise is $\log_2 1 = 0$; as $P(E)$ shrinks towards~0 the surprise grows without bound; and for independent events $E$ and $F$, where $P(E\cap F)=P(E)\,P(F)$,
+\[
+  \operatorname{surprise}(E\cap F) = \operatorname{surprise}(E) + \operatorname{surprise}(F),
+\]
+since the logarithm of a product is the sum of the logarithms.
+
+\emph{Example}: A fair coin lands heads with probability $1/2$.  The event of seeing heads therefore carries $\log_2 2 = 1$ bit of surprise---which is what makes the bit the natural unit.  Two tosses of the coin are independent, so the event `HH' has probability $1/4$ and surprise $\log_2 4 = 2$ bits: one bit for each toss, just as additivity promises.
+
+\section{Entropy}
+
+Fix a probability distribution~$P$ on the vocabulary~\vocab: that is, a function assigning to each word~$w$ a probability $P(w)\ge0$, with $\sum_{w\in\vocab}P(w)=1$.\sidenote{This is a distribution over single words, not over texts; and because \vocab\ is finite, all the sums in this section are finite.}  Now draw a word at random according to~$P$.  Before we see which word it is, how much surprise should we \emph{expect}?  Each particular word~$w$, regarded as the event that it is the one drawn, carries surprise $\operatorname{surprise}(w)=\log_2\tfrac{1}{P(w)}$; and the word~$w$ turns up a fraction $P(w)$ of the time; so the average surprise is found by weighting each word's surprise by its probability and summing.
+
+This average is the \defn{entropy} of the distribution:
+\[
+  H(P) = \sum_{w\in\vocab} P(w)\operatorname{surprise}(w) = \sum_{w\in\vocab} P(w)\log_2\frac{1}{P(w)} = -\sum_{w\in\vocab} P(w)\log_2 P(w).
+\]
+Like surprise, entropy is measured in bits.  A word with $P(w)=0$ never occurs and contributes nothing to the average; we accordingly read the term $P(w)\log_2\tfrac{1}{P(w)}$ as~0 whenever $P(w)=0$.\sidenote{This is the right convention, since $p\log_2\tfrac1p \to 0$ as $p\to0^+$.}
+
+Two extremes bound the entropy.  If the distribution is concentrated on a single word---some $w_0$ has $P(w_0)=1$ and every other word probability~0---then the outcome is never in doubt, and $H(P)=0$: no surprise, on average or otherwise.  At the other extreme, the \defn{uniform distribution}, $P(w)=1/\left|\vocab\right|$ for every word, is the most uncertain, and carries the largest entropy any distribution on \vocab\ can,\sidenote{That the uniform distribution maximises entropy is not obvious from the formula; it follows from the concavity of the logarithm.}
+\[
+  H(P) = \sum_{w\in\vocab}\frac{1}{\left|\vocab\right|}\log_2 \left|\vocab\right| = \log_2 \left|\vocab\right|.
+\]
+Every distribution on \vocab\ therefore has entropy between these, $0 \le H(P) \le \log_2\left|\vocab\right|$.
+
+\emph{Example}: Let $\vocab=\{0,1\}$ and let $P$ be the fair coin, $P(0)=P(1)=1/2$.  Its entropy is $\tfrac12\log_2 2+\tfrac12\log_2 2 = 1$ bit---the $\log_2\left|\vocab\right|=\log_2 2$ promised for the uniform distribution on two words.
+
+\emph{Example}: Let $\vocab=\{0,1\}$ and let $P$ be a biased coin, $P(0)=0.9$ and $P(1)=0.1$.  Then
+\[
+  H(P) = -0.9\log_2 0.9 - 0.1\log_2 0.1 \approx 0.47 \text{ bits},
+\]
+less than the~1 bit of the fair coin: a predictable coin is, on average, less surprising.
+
+\section{Perplexity}
+
+Entropy measures uncertainty in bits, on a logarithmic scale.  It is often handier to undo the logarithm and speak instead of an equivalent \emph{number of choices}.  The \defn{perplexity} of a distribution~$P$ on \vocab\ is the entropy, exponentiated:
+\[
+  \operatorname{perplexity}(P) = 2^{H(P)}.
+\]
+Because entropy was an arithmetic average of the surprises $\log_2\tfrac1{P(w)}$, exponentiating turns it into a \emph{geometric} average of the quantities $1/P(w)$ themselves:
+\[
+  \operatorname{perplexity}(P) = 2^{\sum_{w\in\vocab} P(w)\log_2\frac{1}{P(w)}} = \prod_{w\in\vocab}\left(\frac{1}{P(w)}\right)^{P(w)}.
+\]
+
+The value has a clean reading: perplexity is the \emph{effective number of equally-likely choices}.  The uniform distribution on \vocab\ makes this exact---its entropy is $\log_2\left|\vocab\right|$, so its perplexity is $2^{\log_2\left|\vocab\right|}=\left|\vocab\right|$, one choice for each word, just as it should be.  A distribution more predictable than uniform behaves like a uniform choice among \emph{fewer} words.
+
+\emph{Example}: The fair coin has entropy~1 bit and perplexity $2^1 = 2$: two genuine choices.  The biased coin with $P(0)=0.9$ has entropy $\approx0.47$ bits and perplexity $2^{0.47}\approx1.38$: barely more than one real choice, since one outcome is nearly certain.
+
+We can now read the paper's use of the word.  In practice we do not know the true distribution over words; instead we have a \emph{model} that, at each point in a text, assigns a probability to the next word, and a corpus of real text on which to judge it.  Write $\hat P(w_t \mid w_1^{t-1})$ for the probability the model assigns to the $t$-th word once it has seen the words before it.\sidenote{The hat marks a model's estimate rather than a true probability, and $\hat P(w_t\mid w_1^{t-1})$ is a \emph{conditional} probability: the model's probability for $w_t$ \emph{given} the preceding words $w_1,\dotsc,w_{t-1}$.  We will treat conditional probability, and this ``next word given the previous ones'' picture of language, in a later section.}  Each observed word then carries a surprise $\log_2\tfrac{1}{\hat P(w_t\mid w_1^{t-1})}$ under the model.  Averaging that surprise over all $N$ words of the corpus and exponentiating gives the model's perplexity \emph{on that corpus}:
+\[
+  2^{\frac1N\sum_{t=1}^N \log_2\frac{1}{\hat P(w_t\mid w_1^{t-1})}}
+  \;=\;
+  \left(\prod_{t=1}^N \frac{1}{\hat P(w_t\mid w_1^{t-1})}\right)^{\!1/N}.
+\]
+The phrase \emph{negative log-likelihood} unpacks in three steps.  The \defn{likelihood} of the corpus under the model is the probability the model assigns to the very words that occurred---the product $\prod_{t=1}^N \hat P(w_t\mid w_1^{t-1})$.  Its logarithm, the \defn{log-likelihood} $\sum_{t=1}^N \log_2 \hat P(w_t\mid w_1^{t-1})$, trades that product for a sum.  And because every probability is at most~1, each $\log_2 \hat P$ is at most~0, so the log-likelihood is negative (or zero); negating it yields a non-negative quantity to report.  The point to notice is that the negative log-likelihood of a single word is nothing new:
+\[
+  -\log_2 \hat P(w_t\mid w_1^{t-1}) = \log_2\frac{1}{\hat P(w_t\mid w_1^{t-1})} = \operatorname{surprise}(w_t),
+\]
+precisely its surprise under the model.  So the average negative log-likelihood is exactly the average surprise---the exponent in the perplexity formula above.
+
+This is why the paper's two descriptions agree.  The quantity is Bengio et al.'s ``geometric average of $1/\hat P(w_t\mid w_1^{t-1})$ \dots\ also \dots\ the exponential of the average negative log-likelihood'': the right-hand side of the display is the geometric average, and the exponent on the left is that average negative log-likelihood.  A \emph{lower} perplexity means the model was, on average, less surprised by the words that actually occurred, and so predicted the text better.
 
 
 \end{document}
