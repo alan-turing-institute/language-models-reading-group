@@ -40,12 +40,13 @@ We usually make use of a notational abbreviation for texts in which the symbols 
 
 \emph{Example}: Let the vocabulary be the set $\vocab = \{\text{the}, \text{on}, \text{cat}, \text{mat}, \text{sat}\}$.  Then `the', `mat mat mat', and `cat on cat on mat' are texts.
 
-The set of \emph{all} texts is denoted~$\vocab^*$. The `$*$' is called the \emph{Kleene star}.\sidenote{After Stephen Cole Kleene, 1909--1994. Kleene invented regular expressions in 1951, according to Wikipedia, ``to describe McCulloch-Pitts neural networks.'' Plus ça change!} It's the same $*$ as used in regular expressions---which Kleene invented---where it means ``zero or more repetitions of the preceding set of letters.'' It has essentially the same meaning here. Unless \vocab\ is empty, there are countably infinitely many elements of~$\vocab^*$.
+The set consisting of \emph{all} texts is denoted~$\vocab^*$. The `$*$' is called the \emph{Kleene star}.\sidenote{After Stephen Cole Kleene, 1909--1994. Kleene invented regular expressions in 1951, according to Wikipedia, ``to describe McCulloch-Pitts neural networks.'' Plus ça change!} It's the same $*$ as used in regular expressions---which Kleene invented---where it means ``zero or more repetitions of the preceding set of letters.'' It has essentially the same meaning here. Unless \vocab\ is empty, there are countably infinitely many elements of~$\vocab^*$.
 
-A \defn{language}, $\lang$, is a subset of~$\vocab^*$. (The empty subset
-is a valid language, as is $\vocab^*$ itself.)
+A \defn{language}, $\lang$, is a subset of~$\vocab^*$.
 
-\emph{Example}: Let $\vocab=\{0,1\}$ as before. A natural number, written in binary, is a text over this vocabulary. The set of all natural numbers, expressed in binary, is a language. (Note that this language is a proper subset of $\vocab^*$ since, for example, it does not contain any texts starting with `0` apart from `0`.)
+\emph{Example}: The empty set, consisting of no texts, is a language, since $\emptyset\subset\vocab^*$. $\vocab^*$~itself is a language, since $\vocab^*\subset\vocab^*$.
+
+\emph{Example}: Let $\vocab=\{0,1\}$ as before. A natural number, written in binary, is a text over this vocabulary. Consider the set of all natural numbers, expressed in binary; that is, $\lang = \{\text{0}, \text{1}, \text{10}, \text{11}, \text{100}, \dotsc\}$. This \lang\ is a language. (Note that \lang\ is a proper subset of $\vocab^*$ since, for example, it does not contain any texts starting with `0' apart from `0'.)
 
 \emph{Example}: Let $\vocab=\{0,1\}$. A rational number between~0 and~1, may be written as a binary ``decimal.'' For example, the fraction $1/2$ is $0.1$ in binary. Consider the set of all such binary expressions, omitting the initial `$0.$'. We do \emph{not} obtain a language: this set contains infinite sequences (such as the binary expansion of $1/10$) and infinite sequences are not texts.
 
