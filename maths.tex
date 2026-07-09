@@ -69,11 +69,11 @@ The usual treatment of probability is either very informal or involves machinery
 
 An \defn{ensemble}, $X$, is a pair, $X= (\mathcal{A}_X,p_X)$, consisting of a set, $\mathcal{A}_X$, called the \defn{sample space}; and a map, $p_X\colon \mathcal{A} \to [0,1]$, called the \defn{probability mass function}, such that $\sum_{a\in A_X} p_X(a) =1$. 
 
-An element of the sample space are known as an \defn{outcome}. Instead of ``ensemble'' you will sometimes hear ``discrete probability distribution'' (by analogy with the continuous case).  The problem with that terminology is that it is unclear whether it refers to the ensemble, or just to the mass function.
+An element of the sample space are known as an \defn{outcome}. Instead of ``ensemble'' you will sometimes hear ``discrete probability distribution,'' by analogy with the continuous case.  The problem with that terminology is that it is unclear whether it refers to the ensemble, or just to the mass function.
 
 An \defn{event} is a subset $E\subset \mathcal{A}_X$ of the sample space.  It is events that have probabilities.  In the general theory it is necessary to specify which subsets are to have probabilities assigned to them and in many applications not all subsets do have a probability.  However, in ensembles it is typical that every subset of~$\mathcal{A}_X$ is an event.
 
-Suppose $E\subset\mathcal{A}_X$ is an event.  The probability of $E$, denoted $P_X(E)$, is given by $P_X(E) = \sum_{a\in\mathcal{A}_X} p(a)$. 
+Suppose $E\subset\mathcal{A}_X$ is an event.  The probability of $E$, denoted $P_X(E)$, is given by $P_X(E) = \sum_{a\in\mathcal{A}_X} p_X(a)$. 
 
 If you have encountered probability before you are likely to be
 wondering why we have introduced what is apparently unnecessary
@@ -83,7 +83,9 @@ probability mass function, why introduce the uppercase $P_X$ at all? Why
 not just use the probability mass function throughout?
 
 The point is that the usual notation suffers from certain
-inconsistencies and ambiguities. For example, informally, one often sees
+inconsistencies and ambiguities.  
+
+For example, informally, one often sees
 an expression like $p(x)$ for ``the probability of an outcome
 $x$''. That looks a lot like normal function notation, analogous to
 $\sin(\theta)$ for the sine of~$\theta$, or $\log(x)$ for the logarithm
@@ -96,7 +98,7 @@ you mean, ``the probability that a throw of the die comes up~2,'' or
 you might see $p(x = 2)$, which ``looks right'' but doesn't make sense
 if $p$ is supposed to be a function.
 
-
+ 
 
 
 
