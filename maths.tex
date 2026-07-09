@@ -10,8 +10,8 @@
 \usepackage[dvipsnames]{xcolor}
 \usepackage{siunitx}
 %% 
-%%\usepackage[style=authoryear]{biblatex}
-%%\addbibresource{notes.bib}
+\usepackage[style=authoryear]{biblatex}
+\addbibresource{maths.bib}
 %%
 %% \defn takes an optional star and an optional argument.
 %% If the optional argument is present, it is used for the marginal note; if the argument is missing, the default is the mandatory argument. If the command is starred, no marginal note is made. 
@@ -28,7 +28,11 @@
 \newcommand{\lang}{\ensuremath{\mathcal{L}}}
 \maketitle
 
+Roughly speaking, a statistical model of language is a probability distribution over ``utterances.'' Before getting to the details of how one constructs such a thing we should say what we mean by a language and give some background on probabilistic concepts.
+
 \section{Languages}
+
+In the current application, what is meant by a ``language'' is just a set: namely, the set of valid utterances. The following set of definitions make this precise.
 
 Fix, once and for all, a finite set,~\vocab, called the \defn{vocabulary}. The elements of \vocab\ will be called~\defn{words}. Typically, \vocab\ is in fact the set of words in some lexicon but it might also be a set of tokens, or a set of letters.  We leave open the question of whether \vocab\ includes punctuation, capitalised words, and so on.  The notation $\left|\vocab\right|$ usually refers to the number of elements of~\vocab.
 
@@ -56,5 +60,51 @@ A \defn{language}, $\lang$, is a subset of~$\vocab^*$.
 
 Sometimes we are interested only in sequences of words of a certain length. We denote by $\vocab^N$ the set of all sequences of $N$ words, for $N$ some natural number. (The notation is essentially that for the Cartesian product.) 
 
+Our goal is eventually to define a language, \lang, and then to place upon it a probability distribution. Before giving that construction, we review some concepts from probability and information theory.
+
+
+\section{Probability}
+
+The usual treatment of probability is either very informal or involves machinery that we don't need. Here we give a version from \textcite{mackay2003information} which strikes a nice balance if one only needs to consider the discrete case. 
+
+An \defn{ensemble}, $X$, is a pair, $X= (\mathcal{A}_X,p_X)$, consisting of a set, $\mathcal{A}_X$, called the \defn{sample space}; and a map, $p_X\colon \mathcal{A} \to [0,1]$, called the \defn{probability mass function}, such that $\sum_{a\in A_X} p_X(a) =1$. 
+
+An element of the sample space are known as an \defn{outcome}. Instead of ``ensemble'' you will sometimes hear ``discrete probability distribution'' (by analogy with the continuous case).  The problem with that terminology is that it is unclear whether it refers to the ensemble, or just to the mass function.
+
+An \defn{event} is a subset $E\subset \mathcal{A}_X$ of the sample space.  It is events that have probabilities.  In the general theory it is necessary to specify which subsets are to have probabilities assigned to them and in many applications not all subsets do have a probability.  However, in ensembles it is typical that every subset of~$\mathcal{A}_X$ is an event.
+
+Suppose $E\subset\mathcal{A}_X$ is an event.  The probability of $E$, denoted $P_X(E)$, is given by $P_X(E) = \sum_{a\in\mathcal{A}_X} p(a)$. 
+
+If you have encountered probability before you are likely to be
+wondering why we have introduced what is apparently unnecessary
+machinery. In particular, if every subset of the sample space is an
+event, and if the probability of an event is determined entirely by the
+probability mass function, why introduce the uppercase $P_X$ at all? Why
+not just use the probability mass function throughout?
+
+The point is that the usual notation suffers from certain
+inconsistencies and ambiguities. For example, informally, one often sees
+an expression like $p(x)$ for ``the probability of an outcome
+$x$''. That looks a lot like normal function notation, analogous to
+$\sin(\theta)$ for the sine of~$\theta$, or $\log(x)$ for the logarithm
+of~$x$. But whereas $\sin$ and $\log$ \emph{are} just functions and can
+be applied to values, for example $\sin(\pi)$ or $\log(2)$, the same is
+not true of~$p$. For example, $p(2)$ looks odd and normally one does not
+see it. ``The probability of 2,'' is somehow a peculiar thing to say:
+you mean, ``the probability that a throw of the die comes up~2,'' or
+``the probability that a variable $x$ takes on the value~2.'' Indeed,
+you might see $p(x = 2)$, which ``looks right'' but doesn't make sense
+if $p$ is supposed to be a function.
+
+
+
+
+
+
+
+
+
+\printbibheading
+\printbibliography
 
 \end{document}
