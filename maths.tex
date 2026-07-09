@@ -60,12 +60,12 @@ A \defn{language}, $\lang$, is a subset of~$\vocab^*$.
 
 Sometimes we are interested only in sequences of words of a certain length. We denote by $\vocab^N$ the set of all sequences of $N$ words, for $N$ some natural number. (The notation is essentially that for the Cartesian product.) 
 
-Our goal is eventually to define a language, \lang, and then to place upon it a probability distribution. Before giving that construction, we review some concepts from probability and information theory.
+Our goal is eventually to define a language, \lang, and then to place upon it a probability distribution. Before giving that construction, we review some concepts from probability theory.
 
 
 \section{Probability}
 
-The usual treatment of probability is either very informal or involves machinery that we don't need. Here we give a version from \textcite{mackay2003information} which strikes a nice balance if one only needs to consider the discrete case. 
+The usual treatment of probability is either very informal or involves machinery that we don't need. Here we give a version adapted from \textcite{mackay2003information} which strikes a nice balance if one only needs to consider the discrete case. 
 
 An \defn{ensemble}, $X$, is a pair, $X= (\mathcal{A}_X,p_X)$, consisting of a set, $\mathcal{A}_X$, called the \defn{sample space}; and a map, $p_X\colon \mathcal{A} \to [0,1]$, called the \defn{probability mass function}, such that $\sum_{a\in A_X} p_X(a) =1$. 
 
@@ -73,32 +73,22 @@ An element of the sample space are known as an \defn{outcome}. Instead of ``ense
 
 An \defn{event} is a subset $E\subset \mathcal{A}_X$ of the sample space.  It is events that have probabilities.  In the general theory it is necessary to specify which subsets are to have probabilities assigned to them and in many applications not all subsets do have a probability.  However, in ensembles it is typical that every subset of~$\mathcal{A}_X$ is an event.
 
-Suppose $E\subset\mathcal{A}_X$ is an event.  The probability of $E$, denoted $P_X(E)$, is given by $P_X(E) = \sum_{a\in\mathcal{A}_X} p_X(a)$. 
+Suppose $E\subset\mathcal{A}_X$ is an event.  The \defn{probability} of $E$, denoted $P_X(E)$, is given by $P_X(E) = \sum_{a\in\mathcal{A}_X} p_X(a)$.
 
-If you have encountered probability before you are likely to be
-wondering why we have introduced what is apparently unnecessary
-machinery. In particular, if every subset of the sample space is an
-event, and if the probability of an event is determined entirely by the
-probability mass function, why introduce the uppercase $P_X$ at all? Why
-not just use the probability mass function throughout?
+Alternative notations for $P_X(E)$ are $\mathbb{P}_X(E)$ and sometimes $\operatorname{Pr}_X(E)$.  You will also see, for example, $P_X(a)$, when what is meant is $P_X(\{a\})$.  In the continuous case, you might see, for example, $P(x > 0)$ when what is mean is $P(\{x\mid x>0\})$.  It is also common to drop the subscript $X$ when the ensemble is obvious from the context.  It can sometimes happen that the subscript is dropped even when there are two different ensembles in the same expression.  For example, if $X$ and $Y$ are two ensembles, with $E$ an event in $X$ and $Y$ and event in~$Y$, we might write $P(E\times F) = P(E)P(F)$ to denote a probability in the product ensemble (see below).  Here there are three different ensembles in the same equation.
 
-The point is that the usual notation suffers from certain
-inconsistencies and ambiguities.  
+A particularly important class of enembles arises when one has several sample spaces, $\mathcal{A}_X$, $\mathcal{A}_Y$, and so on, up to, say, $\mathcal{A}_Z$, and one is interested in a sample space whose outcomes are a tuple of an outcomes, one from each of the individual spaces.  A \defn{joint ensemble} is an ensemble whose sample space is the cartesian product $\mathcal{A}_X\times\mathcal{A}_Y\times\dotsb\times\mathcal{A}_Z$.
 
-For example, informally, one often sees
-an expression like $p(x)$ for ``the probability of an outcome
-$x$''. That looks a lot like normal function notation, analogous to
-$\sin(\theta)$ for the sine of~$\theta$, or $\log(x)$ for the logarithm
-of~$x$. But whereas $\sin$ and $\log$ \emph{are} just functions and can
-be applied to values, for example $\sin(\pi)$ or $\log(2)$, the same is
-not true of~$p$. For example, $p(2)$ looks odd and normally one does not
-see it. ``The probability of 2,'' is somehow a peculiar thing to say:
-you mean, ``the probability that a throw of the die comes up~2,'' or
-``the probability that a variable $x$ takes on the value~2.'' Indeed,
-you might see $p(x = 2)$, which ``looks right'' but doesn't make sense
-if $p$ is supposed to be a function.
+\emph{Example}: Suppose we are interested in a language consisting of, say, five words from some vocabulary,~\vocab.  Here the sample space is the language $\lang = \vocab\times\vocab\times\vocab\times\vocab\times\vocab = \vocab^5$, and so the ensemble is a joint ensemble.
 
- 
+
+
+
+
+
+
+\section{Statistical language models}
+
 
 
 
