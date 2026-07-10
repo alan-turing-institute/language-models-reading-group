@@ -23,6 +23,7 @@
 %%
 \begin{document}%\maketitle
 %%
+\newcommand{\isdef}{\stackrel{\text{def}}{=}}
 \newcommand{\vocab}{\ensuremath{\mathcal{V}}}
 \newcommand{\emptytext}{\ensuremath{\varepsilon}}
 \newcommand{\lang}{\ensuremath{\mathcal{L}}}
@@ -79,8 +80,13 @@ Alternative notations for $P_X(E)$ are $\mathbb{P}_X(E)$ and sometimes $\operato
 
 A particularly important class of enembles arises when one has several sample spaces, $\mathcal{A}_X$, $\mathcal{A}_Y$, and so on, up to, say, $\mathcal{A}_Z$, and one is interested in a sample space whose outcomes are a tuple of an outcomes, one from each of the individual spaces.  A \defn{joint ensemble} is an ensemble whose sample space is the cartesian product $\mathcal{A}_X\times\mathcal{A}_Y\times\dotsb\times\mathcal{A}_Z$.
 
-\emph{Example}: Suppose we are interested in a language consisting of, say, five words from some vocabulary,~\vocab.  Here the sample space is the language $\lang = \vocab\times\vocab\times\vocab\times\vocab\times\vocab = \vocab^5$, and so the ensemble is a joint ensemble.
+\emph{Example}: Suppose we are interested in a language consisting of, say, five words from some vocabulary,~\vocab.  That is, an outcome is a tuple of five words.  Here the sample space is the language $\lang = \vocab\times\vocab\times\vocab\times\vocab\times\vocab = \vocab^5$, and so the ensemble is a joint ensemble.
 
+Suppose $\mathcal{A}_X$ and $\mathcal{A}_Y$ are sets, and suppose $J = (\mathcal{A}_X\times\mathcal{A}_Y, p_J)$ is a joint ensemble. Consider the probability mass function $p_X$ on $\mathcal{A}_X$ given by ``summing over the y's'', that is $p_X(x) \isdef \sum_{y\in\mathcal{A}_Y} p_J(x,y)$. We obtain an ensemble $(\mathcal{A}_X, p_X)$ called the \defn{marginal} distribution on~$\mathcal{A}_X$. Likewise, we may obtain the marginal distribution on~$\mathcal{A}_Y$ given by ``summing over the x's'', $p_Y \isdef \sum_{x\in\mathcal{A}_X} p_J(x,y)$.
+
+We often abuse notation and write $P(x,y)$ for the joint probability of the event $\{(x,y)\}$ represending the single outcome $(x,y)\in\mathcal{A}_X\times\mathcal{A}_Y$. Likewise we write $P(x)$ for the probability in the marginal distribution of the event $\{x\}$.
+
+The probability mass function on $\mathcal{A}_X$ given by $p_C \isdef = p_J(x,y)/p_Y(y)$ is called the \defn{conditional distribution}.  We write $P(x\mid y)$ for the probability 
 
 
 
