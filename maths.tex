@@ -76,21 +76,29 @@ An \defn{event} is a subset $E\subset \mathcal{A}_X$ of the sample space.  It is
 
 Suppose $E\subset\mathcal{A}_X$ is an event.  The \defn{probability} of $E$, denoted $P_X(E)$, is given by $P_X(E) = \sum_{a\in\mathcal{A}_X} p_X(a)$.
 
-Alternative notations for $P_X(E)$ are $\mathbb{P}_X(E)$ and sometimes $\operatorname{Pr}_X(E)$.  You will also see, for example, $P_X(a)$, when what is meant is $P_X(\{a\})$.  In the continuous case, you might see, for example, $P(x > 0)$ when what is mean is $P(\{x\mid x>0\})$.  It is also common to drop the subscript $X$ when the ensemble is obvious from the context.  It can sometimes happen that the subscript is dropped even when there are two different ensembles in the same expression.  For example, if $X$ and $Y$ are two ensembles, with $E$ an event in $X$ and $Y$ and event in~$Y$, we might write $P(E\times F) = P(E)P(F)$ to denote a probability in the product ensemble (see below).  Here there are three different ensembles in the same equation.
+Alternative notations for $P_X(E)$ are $\mathbb{P}_X(E)$ and $\operatorname{Pr}_X(E)$.  You will also see, for example, $P_X(a)$, when what is meant is $P_X(\{a\})$.  In the continuous case, you might see, for example, $P(x > 0)$ when what is mean is $P(\{x\mid x>0\})$. It is also common to drop the subscript $X$ when the ensemble is obvious from the context.  It can sometimes happen that the subscript is dropped even when there are two or more different ensembles in the same expression. (I think this is basically why we have little `$p$' and big `$P$': We want to be able to use $P$ for ``probability'' even as we use different underlying probability mass functions with different names, like $q$.)
 
 A particularly important class of enembles arises when one has several sample spaces, $\mathcal{A}_X$, $\mathcal{A}_Y$, and so on, up to, say, $\mathcal{A}_Z$, and one is interested in a sample space whose outcomes are a tuple of an outcomes, one from each of the individual spaces.  A \defn{joint ensemble} is an ensemble whose sample space is the cartesian product $\mathcal{A}_X\times\mathcal{A}_Y\times\dotsb\times\mathcal{A}_Z$.
 
 \emph{Example}: Suppose we are interested in a language consisting of, say, five words from some vocabulary,~\vocab.  That is, an outcome is a tuple of five words.  Here the sample space is the language $\lang = \vocab\times\vocab\times\vocab\times\vocab\times\vocab = \vocab^5$, and so the ensemble is a joint ensemble.
 
-Suppose $\mathcal{A}_X$ and $\mathcal{A}_Y$ are sets, and suppose $J = (\mathcal{A}_X\times\mathcal{A}_Y, p_J)$ is a joint ensemble. Consider the probability mass function $p_X$ on $\mathcal{A}_X$ given by ``summing over the y's'', that is $p_X(x) \isdef \sum_{y\in\mathcal{A}_Y} p_J(x,y)$. We obtain an ensemble $(\mathcal{A}_X, p_X)$ called the \defn{marginal} distribution on~$\mathcal{A}_X$. Likewise, we may obtain the marginal distribution on~$\mathcal{A}_Y$ given by ``summing over the x's'', $p_Y \isdef \sum_{x\in\mathcal{A}_X} p_J(x,y)$.
+We often abuse notation and write $P(x,y)$ for the probability in a
+joint ensemble of the single-outcome event $\{(x,y)\}$.
 
-We often abuse notation and write $P(x,y)$ for the joint probability of the event $\{(x,y)\}$ represending the single outcome $(x,y)\in\mathcal{A}_X\times\mathcal{A}_Y$. Likewise we write $P(x)$ for the probability in the marginal distribution of the event $\{x\}$.
+Suppose $\mathcal{A}_X$ and $\mathcal{A}_Y$ are sets, and suppose $J = (\mathcal{A}_X\times\mathcal{A}_Y, p_J)$ is a joint ensemble. Consider the probability mass function $p_X$ on $\mathcal{A}_X$ given by ``summing over the y's;'' that is, $p_X(x) \isdef \sum_{y\in\mathcal{A}_Y} p_J(x,y)$.  We obtain an ensemble $(\mathcal{A}_X, p_X)$ called the \defn{marginal} distribution on~$\mathcal{A}_X$. Likewise, we may obtain the marginal distribution on~$\mathcal{A}_Y$ by ``summing over the x's;'' that is, $p_Y \isdef \sum_{x\in\mathcal{A}_X} p_J(x,y)$.
 
-The probability mass function on $\mathcal{A}_X$ given by $p_C \isdef = p_J(x,y)/p_Y(y)$ is called the \defn{conditional distribution}.  We write $P(x\mid y)$ for the probability 
+Again, by abuse of notation, we write $P(x)$ for the marginal
+probability of the single-outcome event. Using this notation, the joint
+ensemble whose probability is given by $P(x,y)=P(x)P(y)$ is called the
+\defn{product ensemble}. Note that in this formula there are three
+different ensembles even though we use the same symbol $P$ for each.
 
+For fixed $y\in\mathcal{A}_Y$, the probability mass function on $\mathcal{A}_X$ given by $p_C \isdef p_J(x,y)/p_Y(y)$ is called the \defn{conditional distribution}.  (Note that this is a probability mass function in the sense that the sum over $x$ is~1.) We write $P(x\mid y)$ for the probability of the single-outcome event $\{x\}$ under this ensemble.   
 
-
-
+Purely from the definitions, we have
+\begin{equation*}
+  P(x,y) = P(x\mid y)P(y).
+\end{equation*}
 
 
 \section{Statistical language models}
