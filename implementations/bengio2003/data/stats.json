@@ -1,0 +1,20 @@
+{
+  "source": "NLTK brown.words()",
+  "paper_total_words": 1181041,
+  "actual_total_tokens": 1161192,
+  "paper_vocab_size": 16383,
+  "actual_vocab_size": 17905,
+  "rare_word_max_freq": 3,
+  "unk_token": "<unk>",
+  "case_sensitive": true,
+  "split_sizes": {
+    "train": 800000,
+    "valid": 200000,
+    "test": 161192
+  },
+  "paper_split_sizes": {
+    "train": 800000,
+    "valid": 200000,
+    "test": 181041
+  }
+}

@@ -1,0 +1,31 @@
+# LaTeX build artifacts
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.pdf
+*.synctex.gz
+*.toc
+*.bbl
+*.blg
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+
+# NLTK data (downloaded at runtime, not vendored)
+nltk_data/
+
+# NOTE: the derived Brown corpus data in
+# implementations/bengio2003/data/ IS intentionally committed
+# (redistribution permitted; see that folder's SOURCE.md).
+# To keep it out of git instead, uncomment:
+# implementations/bengio2003/data/*.ids
+# implementations/bengio2003/data/vocab.txt
