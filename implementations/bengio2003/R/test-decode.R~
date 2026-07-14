@@ -1,0 +1,7 @@
+
+
+## Vocabulary is a vector of words, 1-indexed
+vocab <- scan("data/vocab.txt", what = character())
+
+## Text is a vector of integers
+train <- scan("data/
