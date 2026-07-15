@@ -118,8 +118,8 @@ y = b + W Cs + U tanh(d + H Cs)
 
 
 ;; Tensors are initialised with numbers drawn from a normal distribution
-;; with variance 2 / (rows + cols)
-;; This is known as "Xavier" or "Glorot" initialisation.
+;; with variance 2 / (rows + cols), aka "Xavier initialisation"
+;;
 ;; See, e.g., Glorot and Bengio, "Understanding the difficulty of training
 ;; deep feedforward neural networks" (2010)
 
@@ -130,7 +130,7 @@ y = b + W Cs + U tanh(d + H Cs)
   (list->matrix nr nc initvs))
 
 ;; Vectors are initialised with 0.0
-;; These are "column vectors" aha ha.
+;; These are "column vectors", ie, matrices of shape (d 1)
 ;; d is a number
 (define (make-init-tensor1 d)
   (make-matrix d 1 0.0))
