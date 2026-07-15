@@ -86,11 +86,10 @@ Bengio 2013
 
 y = b + W Cs + U tanh(d + H Cs)
 
-;; Tensors ("the weights") are implemented simply as arrays
-;; Vectors ("the biases") are implemented as 1-dimensional arrays
+;; Tensors ("the weights") are implemented simply as matrices
+;; Vectors ("the biases") are implemented as column matrices
 
 |#
-
 
 ;; Computes the probabilities
 (define (bengio-p <Cs> <H> <d> <W> <U> <b>)
@@ -102,7 +101,7 @@ y = b + W Cs + U tanh(d + H Cs)
   (define <3> (matrix-map tanh <2>))
   (define <4> (matrix* <U> <3>))
   (define <5> (matrix* <W> <Cs>))
-  (define <y> (matrix+ <b> <5> <4>))  ; Should be shape #(dV 1) !
+  (define <y> (matrix+ <b> <5> <4>))  ; Should be shape #(dV 1) 
 
   (define <exp-y> (matrix-map exp <y>))
   (define sum-exp-y (array-all-sum <exp-y>))
