@@ -1,9 +1,10 @@
 import random
 import math
+import logging
+import argparse
 
-n=4 # context length
-m = 50 # word embedding size
-h = 60 # hidden dim
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 def build_array(
 	shape: list[int] | int, 
@@ -91,16 +92,61 @@ def matmul(m1: list, m2: list):
 	assert len(o) == len(m1)
 	return o
 
+def forward(i:int):
+	activations = {} # dict to store activations for backward pass
+
+	# get input batch
+	context, gt = get_training_data(i, n, train_ids)
+	activations["context"] = context
+	activations["gt"] = gt
+	x = get_sentence_embeddings(context, C)
+	activations["x"] = x
+
+	Hx = matmul(x, H) # shape [1, h], we drop the 1 dim
+	activations["Hx"] = Hx[0]
+
+	z_hidden = [di+Hxi for di, Hxi in zip(d, Hx[0])]
+	activations["z_hidden"] = z_hidden
+
+	a = [math.tanh(x) for x in z_hidden] # shape [h]
+	activations["a"] = a
+
+	Ua = matmul(a, U) # shape [1, V], we drop the 1 dim
+	activations["Ua"] = Ua[0]
+
+	Wx = matmul(x, W) # shape [1, V], we drop the 1 dim
+	activations["Wx"] = Wx[0]
+
+	y = [bi+wi+ai for bi, wi, ai in zip(b, Wx[0], Ua[0])]
+	activations["y"] = y
+
+	# softmax
+	es = [math.exp(i) for i in y]
+	sum_es = sum(es)
+	probs = [i/sum_es for i in es]
+	activations["probs"] = probs
+
+	loss = -math.log(probs[gt])
+	logger.info(f"{loss=}")
+	return loss, activations
+
+# initial param set up
+n=4 # context length
+m = 50 # word embedding size
+h = 60 # hidden dim
+logger.info(f"{n=}, {m=}, {h=}")
+
 # load training data
 with open("../data/train.ids", "r") as f:
-    train_ids = f.read().split()
+	train_ids = f.read().split()
 train_ids = [int(id) for id in train_ids]
 
 # load vocab
 with open("../data/vocab.txt", "r") as f:
-    vocab = f.read().split()
+	vocab = f.read().split()
 
 V = len(vocab) # vocab size
+logger.info(f"{V=}")
 
 # trainable matrixes
 C = build_array([V, m]) # embeddings matrix, shape [V, m]
@@ -110,23 +156,9 @@ U = build_array([h, V]) # shape [h, V]
 W = build_array([n*m, V]) # shape [n*m, V]
 b = build_array(V) # shape [V]
 
-# get input batch
-context, gt = get_training_data(0, n, train_ids)
-x = get_sentence_embeddings(context, C)
+if __name__ == "__main__":
+	parser = argparse.ArgumentParser()
+	parser.add_argument("-i", type=int, default=0)
 
-
-Hx = matmul(x, H) # shape [1, h], we drop the 1 dim
-out = [di+Hxi for di, Hxi in zip(d, Hx[0])]
-out = [math.tanh(x) for x in out] # shape [h]
-a = matmul(out, U) # shape [1, V], we drop the 1 dim
-
-w = matmul(x, W) # shape [1, V], we drop the 1 dim
-
-y = [bi+wi+ai for bi, wi, ai in zip(b, w[0], a[0])]
-
-# softmax
-es = [math.exp(i) for i in y]
-sum_es = sum(es)
-probs = [i/sum_es for i in es]
-
-loss = -math.log(probs[gt])
+	args = parser.parse_args()
+	forward(args.i)
