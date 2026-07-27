@@ -2,6 +2,7 @@ import argparse
 import logging
 
 from .forward import build_array, forward
+from .backward import backward
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -50,3 +51,5 @@ if __name__ == "__main__":
 
 	args = parser.parse_args()
 	loss, activations = forward(args.i, train_ids, params)
+
+	backward(loss, activations, train_ids, params)
