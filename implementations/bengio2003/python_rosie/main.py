@@ -1,8 +1,8 @@
 import argparse
 import logging
 
-from .forward import build_array, forward
-from .backward import backward
+from forward import build_array, forward
+from backward import backward
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -33,9 +33,39 @@ U = build_array([h, V]) # shape [h, V]
 W = build_array([n*m, V]) # shape [n*m, V]
 b = build_array(V) # shape [V]
 
+def update_params(params: list, grads: list, lr):
+	"""Update params in place using gradient descent
+
+	Parameters
+	----------
+	param : list
+		1 or 2 dim matrix of parameters to update
+	grads : list
+		1 or 2 dim matrix of gradients (one per each parameter)
+	lr : float
+		Learning rate
+	"""
+	assert len(params) == len(grads)
+
+	if isinstance(params[0], list):
+		assert len(params[0]) == len(grads[0])
+
+		# iterate over rows
+		for param_row, g_row in zip(params, grads):
+			# update in place
+			for i in range(len(param_row)):
+				param_row[i] -= lr * g_row[i]
+
+	else:
+		# update in place
+		for i in range(len(params)):
+			params[i] -= lr * grads[i]
+
+
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser()
-	parser.add_argument("-i", type=int, default=0)
+	parser.add_argument("--n-steps", type=int, default=10, help="number of training steps")
+	parser.add_argument("-i", type=int, default=0, help="start index for training data")
 
 	params = {
 		"n":n,
@@ -50,6 +80,20 @@ if __name__ == "__main__":
 	}
 
 	args = parser.parse_args()
-	loss, activations = forward(args.i, train_ids, params)
 
-	backward(loss, activations, train_ids, params)
+	for step in range(args.n_steps):
+		# forward
+		loss, activations = forward(args.i, train_ids, params)
+
+		# backward
+		grads = backward(activations, params)
+
+		# update params
+		lr = 0.01
+		for k, grad in grads.items():
+			update_params(
+				params=params[k], 
+				grads=grad, 
+				lr=lr
+			)
+
